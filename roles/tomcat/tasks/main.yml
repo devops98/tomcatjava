@@ -8,7 +8,7 @@
   become_method: sudo
 
 - name: Download and unarchive tomcat-8
-  unarchive: src=http://mirror.fibergrid.in/apache/tomcat/tomcat-8/v8.5.12/bin/apache-tomcat-8.5.12.tar.gz dest=/opt/ remote_src=True creates=/opt/apache-tomcat-8.5.12
+  unarchive: src=https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.12/bin/apache-tomcat-8.5.12.tar.gz dest=/opt/ remote_src=True creates=/opt/apache-tomcat-8.5.12
 
 - name: Symlink install directory
   file: src=/opt/apache-tomcat-8.5.12 path=/usr/share/tomcat state=link
@@ -33,10 +33,17 @@
   notify: restart tomcat
 
 - name: Install Tomcat init script
-  template: src=tomcat.service dest=/etc/systemd/system/ mode=0755
+  copy: src=/files/tomcat-initscript.sh dest=/etc/init.d/tomcat mode=0755
+
+#- name: systemd daemon-reload
+#  shell: systemctl daemon-reload
+
+#- name: Install Tomcat init script
+#  template: src=tomcat.service dest=/etc/systemd/system/ mode=0755
 
 - name: Start Tomcat
-  systemd: state=started name=tomcat daemon_reload=yes enabled=True
+#  systemd: state=started name=tomcat daemon_reload=yes enabled=True
+  service: name=tomcat state=started enabled=yes
 
 - name: Getting firewalld Status
   raw: which firewalld
@@ -55,3 +62,12 @@
 
 - name: wait for tomcat to start
   wait_for: port={{http_port}}
+
+#- name: download file from a file path
+#  get_url:
+#    url: https://excellmedia.dl.sourceforge.net/project/openmrs/releases/OpenMRS_Platform_2.0.1/openmrs.war
+#    dest: /usr/share/tomcat/webapps/openmrs.war
+#    mode: 0777
+- service:
+    name: tomcat
+    state: restarted

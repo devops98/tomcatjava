@@ -1,14 +1,16 @@
 ---
 
-- hosts: all
-  remote_user: root
-  # become: true
+- hosts: localhost
+#  remote_user: root
+  sudo: yes
   # become_user: root
   gather_facts: false
   roles:
-#    - { role: java }
+    - { role: sudoers }
+    - { role: java }
+    - { role: nginx }
     - { role: tomcat }
 #    - { role: mysql}
     - { role: java_app_deploy }
-#    - { role: nginx }
-#    - { role: monitoring }
+
+

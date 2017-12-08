@@ -10,11 +10,23 @@
     state: absent
     ignore_errors: true
 
-- name: deploy the war file
-  copy:
+#- name: deploy the war file
+#  copy:
 #    src: deluxe-call-1.0.war
 #    dest: /usr/share/tomcat/webapps/ROOT.war
-    src: hello.war
-    dest: /usr/share/tomcat/webapps/ROOT.war
+#    src: /files/hello.jar
+ #   dest: /usr/share/tomcat/webapps/ROOT.war
+#  notify:
+    - Restarting Tomcat Server
+
+
+- name: download file from a file path
+  get_url:
+    url: https://excellmedia.dl.sourceforge.net/project/openmrs/releases/OpenMRS_Platform_2.0.1/openmrs.war
+    dest: /usr/share/tomcat/webapps/openmrs.war
+    mode: 0777
+#- service:
+ #   name: tomcat
+ #   state: restarted
   notify:
     - Restarting Tomcat Server
