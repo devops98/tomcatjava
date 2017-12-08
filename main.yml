@@ -9,6 +9,7 @@
     - { role: sudoers }
     - { role: java }
     - { role: nginx }
+#   - { role: nginx-ssl }
     - { role: tomcat }
 #    - { role: mysql}
     - { role: java_app_deploy }

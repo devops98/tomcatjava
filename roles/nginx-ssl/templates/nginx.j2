@@ -9,6 +9,32 @@ events {
 
 http {
 
+
+	
+	#      upstream opendev {
+#    hello 10.0.20.30:8080;
+  # hello 192.168.101.2:8080;
+#       }
+
+#  server {
+#      listen 80;
+
+#      location / {
+#          proxy_pass http://opendev;
+#      }
+
+       server {
+  listen 80;
+  server_name 10.0.20.30;
+
+  location / {
+    proxy_pass http://10.0.20.30:8080/;
+  }
+}
+
+
+
+
 	##
 	# Basic Settings
 	##
